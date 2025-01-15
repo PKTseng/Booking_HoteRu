@@ -184,3 +184,95 @@ Toaster 和 ThemeProvider 都是在這個全局 provider 中配置，這樣可�
 如果不使用 `mode='modal'`，點擊按鈕會導航到一個專門的登入/註冊頁面。
 
 這整個設計模式是現代網頁應用常見的身份驗證 UI 模式，讓用戶可以方便地進行身份驗證相關操作。
+
+## Unit 66. Create Profile - Setup
+
+在 Next.js 專案中，這兩行環境變數的設置是用於 Clerk 身份驗證系統的重定向配置：
+
+- `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/profile/create`
+
+  - 當使用者完成登入（Sign In）後，會被重定向到 `/profile/create` 頁面
+  - 這是一個「fallback」（後備）設置，意味著如果沒有指定其他重定向位置，就會使用這個路徑
+
+- `NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/profile/create`
+  - 當使用者完成註冊（Sign Up）後，會被重定向到 `/profile/create` 頁面
+  - 同樣是一個後備設置
+
+從路徑名稱 `/profile/create` 來看，這個設置很可能是用於引導新用戶在登入或註冊後建立他們的個人資料。
+
+注意事項：
+
+1. `NEXT_PUBLIC_` 前綴表示這些變數在客戶端也可以存取
+2. 這些路徑必須確實存在於你的專案中，否則用戶會遇到 404 錯誤
+3. 你可以根據需求更改重定向的路徑，比如改為首頁 `/` 或儀表板 `/dashboard` 等
+
+新增 create profile 頁面
+加入 create function
+新增 create profile div
+
+## Unit 67. FormInput Component
+
+新增共用組件
+
+1. 到 component form file
+2. 定義 form type
+3. 解構 props 將 create profile 的 input 共用部分貼過來
+4. 把解構的屬性貼上
+
+## Unit 68. SubmitButton Component
+
+製作提交按鈕共用組件
+引入ReloadIcon
+使用 useFormStatus pending 效果決定按鈕是否顯示 loading
+引入 組件按鈕 (因為要在封裝一層)
+
+## Unit 69. FormContainer Component
+
+讓我用中文為您解釋這段代碼：
+
+這是一個 React 的表單容器組件，主要用來處理表單提交和顯示提示訊息。讓我們一步步解析：
+
+1. `FormContainer.tsx` 是一個 React 組件，它接收兩個屬性：
+
+   - `action`: 一個處理表單提交的函數
+   - `children`: 要渲染的表單內容
+
+2. `types.ts` 定義了 `actionFunction` 的類型：
+
+   - 這是一個異步函數
+   - 接收兩個參數：之前的狀態(`prevState`)和表單數據(`formData`)
+   - 返回一個包含 message 字串的對象
+
+3. 組件內部使用了幾個重要的 React 功能：
+
+   - `useFormState`: 用於管理表單狀態
+   - `useEffect`: 用於監聽狀態變化
+   - `useToast`: 用於顯示提示訊息
+
+4. 工作流程是：
+   - 當表單提交時，`action` 函數會被調用
+   - 如果 `action` 返回了訊息，會通過 `toast` 顯示提示
+   - 表單的實際內容是通過 `children` 傳入的
+
+這個組件的主要用途是：
+
+- 統一處理表單提交
+- 提供統一的提示訊息顯示機制
+- 簡化表單相關的樣板代碼
+
+舉個實際使用的例子：
+
+```tsx
+// 使用方式
+<FormContainer
+  action={async (prevState, formData) => {
+    // 處理表單提交
+    return { message: '提交成功！' }
+  }}
+>
+  <input type='text' name='username' />
+  <button type='submit'>提交</button>
+</FormContainer>
+```
+
+需要我對某個部分做更詳細的解釋嗎？
