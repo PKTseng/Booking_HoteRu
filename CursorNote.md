@@ -228,10 +228,6 @@ Toaster 和 ThemeProvider 都是在這個全局 provider 中配置，這樣可�
 
 ## Unit 69. FormContainer Component
 
-讓我用中文為您解釋這段代碼：
-
-這是一個 React 的表單容器組件，主要用來處理表單提交和顯示提示訊息。讓我們一步步解析：
-
 1. `FormContainer.tsx` 是一個 React 組件，它接收兩個屬性：
 
    - `action`: 一個處理表單提交的函數
@@ -274,5 +270,3 @@ Toaster 和 ThemeProvider 都是在這個全局 provider 中配置，這樣可�
   <button type='submit'>提交</button>
 </FormContainer>
 ```
-
-需要我對某個部分做更詳細的解釋嗎？
